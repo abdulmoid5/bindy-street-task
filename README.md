@@ -65,7 +65,7 @@ platforms with XCode._
  pod install
 ```
 
-3. Open `ProjectX/ios/plotifyApp.xcworkspace` in XCode.
+3. Open `ProjectX/ios/bindy_street_task.xcworkspace` in XCode.
 
 4. Run the project by clicking the play button.
 
