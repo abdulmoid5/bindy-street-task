@@ -33,6 +33,7 @@
     "react-native": "0.71.0",
     "react-native-android-location-enabler": "^1.2.2",
     "react-native-animation-hooks": "^1.0.1",
+    "react-native-fast-image": "^8.6.3",
     "react-native-gesture-handler": "^2.12.1",
     "react-native-permissions": "3.8.0",
     "react-native-reanimated": "^3.4.2",

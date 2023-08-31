@@ -1,23 +1,17 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {FlashList} from '@shopify/flash-list';
-import React, {useEffect, useLayoutEffect, useState} from 'react';
-import {
-  ActivityIndicator,
-  Image,
-  RefreshControl,
-  View,
-  useWindowDimensions,
-} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {ActivityIndicator, View, useWindowDimensions} from 'react-native';
+import FastImage from 'react-native-fast-image';
 import {Text} from '~/components/atom/Text';
 import Toast from '~/components/atom/Toast/Toast';
-import {useGetApi} from '~/hooks/api';
+import {Card} from '~/components/organisms/Card';
+import {usePaginationGetApi} from '~/hooks/api';
 import {useTheme} from '~/hooks/useTheme';
 import {AppNavigatorStackParamsList} from '~/navigation/appNavigator/types';
-import {HeaderNavBack} from '~/navigation/headerNavBackButton';
 import i18n from '~/translations/i18n';
 import LocationService from '~/utils/LocationService';
 import {PostViewItemProps} from './types';
-import {Card} from '~/components/organisms/Card';
 
 type PostViewScreenProps = NativeStackScreenProps<
   AppNavigatorStackParamsList,
@@ -34,7 +28,9 @@ export const PostViewScreen: React.FC<PostViewScreenProps> = (
 ): JSX.Element => {
   const {navigation} = props;
   const theme = useTheme();
-  const {data, loading, refetch} = useGetApi('photos');
+  const {data, loading, refetch, fetchNextItems} = usePaginationGetApi(
+    'photos?_start=0&_end=10',
+  );
 
   const [location, setLocation] = useState<LocationProps>({
     latitude: 0,
@@ -90,7 +86,7 @@ export const PostViewScreen: React.FC<PostViewScreenProps> = (
       <FlashList
         contentContainerStyle={{
           backgroundColor: theme.colors.white,
-          paddingBottom: 60,
+          paddingBottom: 120,
         }}
         data={data}
         renderItem={({item}: {item: PostViewItemProps}) => (
@@ -101,7 +97,7 @@ export const PostViewScreen: React.FC<PostViewScreenProps> = (
             style={{
               margin: theme.spacing.xs,
             }}>
-            <Image
+            <FastImage
               style={{
                 width: '100%',
                 height: width - theme.spacing.l * 2,
@@ -114,6 +110,14 @@ export const PostViewScreen: React.FC<PostViewScreenProps> = (
         estimatedItemSize={200}
         onRefresh={refetch}
         refreshing={loading}
+        onEndReached={fetchNextItems}
+        ListFooterComponent={
+          <ActivityIndicator
+            size="large"
+            color={theme.colors.primary}
+            style={{marginVertical: theme.spacing.l}}
+          />
+        }
       />
     </View>
   );

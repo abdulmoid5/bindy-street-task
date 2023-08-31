@@ -3,11 +3,11 @@ import {FlashList} from '@shopify/flash-list';
 import React from 'react';
 import {
   ActivityIndicator,
-  Image,
   RefreshControl,
   ScrollView,
   View,
 } from 'react-native';
+import FastImage from 'react-native-fast-image';
 import {Text} from '~/components/atom/Text';
 import {Card} from '~/components/organisms/Card';
 import {useTheme} from '~/hooks/useTheme';
@@ -105,7 +105,10 @@ const Item: React.FC<ItemProps> = ({variant, image, title}) => {
         margin: theme.spacing.xs,
         width: getSize().width + 32,
       }}>
-      <Image style={{...getSize()}} source={{uri: image}} />
+      <FastImage
+        style={{...getSize()}}
+        source={{uri: image, priority: 'high'}}
+      />
       <View
         style={{
           height: 90,

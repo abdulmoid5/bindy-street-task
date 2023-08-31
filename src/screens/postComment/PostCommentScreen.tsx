@@ -1,7 +1,8 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {FlashList} from '@shopify/flash-list';
 import React from 'react';
-import {Image, View, useWindowDimensions} from 'react-native';
+import {View, useWindowDimensions} from 'react-native';
+import FastImage from 'react-native-fast-image';
 import {Text} from '~/components/atom/Text';
 import {Card} from '~/components/organisms/Card';
 import {useGetApi} from '~/hooks/api';
@@ -61,7 +62,7 @@ export const PostCommentScreen: React.FC<PostCommentScreenProps> = (
               flex: 1,
               backgroundColor: theme.colors.white,
             }}>
-            <Image
+            <FastImage
               style={{
                 width: '100%',
                 height: width,
