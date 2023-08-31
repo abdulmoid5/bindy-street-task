@@ -1,4 +1,5 @@
 export const ONBOARD_ROUTE = 'ONBOARD_ROUTE';
 export const APP_TAB_ROUTE = 'APP_TAB_ROUTE';
 export const POST_VIEW_ROUTE = 'POST_VIEW_ROUTE';
+export const POST_COMMENT_ROUTE = 'POST_COMMENT_ROUTE';
 export const CARD_VIEW_ROUTE = 'CARD_VIEW_ROUTE';

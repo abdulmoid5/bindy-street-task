@@ -3,9 +3,10 @@ import React from 'react';
 import {useTheme} from '~/hooks/useTheme';
 import {OnboardScreen} from '~/screens/onboard/OnboardScreen';
 import {HeaderNavBack} from '../headerNavBackButton';
-import {APP_TAB_ROUTE, ONBOARD_ROUTE} from '../routes';
+import {APP_TAB_ROUTE, ONBOARD_ROUTE, POST_COMMENT_ROUTE} from '../routes';
 import {AppTabNavigator} from '../stacks/app/appTabNavigator';
 import type {AppNavigatorStackParamsList} from './types';
+import {PostCommentScreen} from '~/screens/postComment/PostCommentScreen';
 
 type AppNavigatorStackParamsListTodo = AppNavigatorStackParamsList & any;
 const AppNavigatorStack =
@@ -17,13 +18,15 @@ export const AppNavigator: React.FC = () => {
   return (
     <AppNavigatorStack.Navigator>
       <AppNavigatorStack.Group
-        screenOptions={() => ({
+        screenOptions={({navigation}) => ({
           gestureEnabled: false,
           headerShown: true,
           header: () => (
             <HeaderNavBack
               backgroundColor={theme.colors.white}
-              onBackClick={() => {}}
+              {...(navigation.canGoBack() && {
+                onBackClick: () => navigation.goBack(),
+              })}
             />
           ),
         })}>
@@ -40,6 +43,10 @@ export const AppNavigator: React.FC = () => {
           options={{
             header: () => null,
           }}
+        />
+        <AppNavigatorStack.Screen
+          name={POST_COMMENT_ROUTE}
+          component={PostCommentScreen}
         />
       </AppNavigatorStack.Group>
     </AppNavigatorStack.Navigator>
