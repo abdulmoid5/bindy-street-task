@@ -1,30 +1,21 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import React, {useEffect} from 'react';
+import React from 'react';
 import {ActivityIndicator, View} from 'react-native';
 import {Text} from '~/components/atom/Text';
 import {useTheme} from '~/hooks/useTheme';
 import {AppNavigatorStackParamsList} from '~/navigation/appNavigator/types';
 import i18n from '~/translations/i18n';
 
-type OnboardScreenProps = NativeStackScreenProps<
+type PostViewScreenProps = NativeStackScreenProps<
   AppNavigatorStackParamsList,
-  'ONBOARD_ROUTE'
+  'POST_VIEW_ROUTE'
 >;
 
-export const OnboardScreen: React.FC<OnboardScreenProps> = (
+export const PostViewScreen: React.FC<PostViewScreenProps> = (
   props,
 ): JSX.Element => {
   const {navigation} = props;
   const theme = useTheme();
-
-  useEffect(() => {
-    setTimeout(
-      () => {
-        navigation.replace('APP_TAB_ROUTE');
-      },
-      __DEV__ ? 50 : 1500,
-    );
-  }, []);
 
   return (
     <View

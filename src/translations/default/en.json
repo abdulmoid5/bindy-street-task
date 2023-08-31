@@ -4,12 +4,6 @@
   "accessibility_hint_open_menu": "Opens the menu bar",
   "accessibility_label_back": "Back",
   "accessibility_hint_navigate_back": "Navigates to the previous screen",
-  "startup_progress": "Startup Progress",
-  "random_fact_header":"Hooray! You have successfully completed your task.",
-  "random_fact_loading":"Please wait while we retrieve a random fact for you!",
-  "random_fact_error":"Oops! We're sorry, but there was an issue fetching the data for display in the app. Please try again later.",
-  "retry":"Retry",
-  "random_fact_item_header":"Random fact:",
-  "source":"Source",
-  "get_new_fact":"Fetch Another Fact"
+  "bottom_tab_post_view_title": "Post View",
+  "bottom_tab_card_view_title": "Card View"
 }

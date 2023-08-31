@@ -3,7 +3,8 @@ import React from 'react';
 import {useTheme} from '~/hooks/useTheme';
 import {OnboardScreen} from '~/screens/onboard/OnboardScreen';
 import {HeaderNavBack} from '../headerNavBackButton';
-import {ONBOARD_ROUTE} from '../routes';
+import {APP_TAB_ROUTE, ONBOARD_ROUTE} from '../routes';
+import {AppTabNavigator} from '../stacks/app/appTabNavigator';
 import type {AppNavigatorStackParamsList} from './types';
 
 type AppNavigatorStackParamsListTodo = AppNavigatorStackParamsList & any;
@@ -29,6 +30,13 @@ export const AppNavigator: React.FC = () => {
         <AppNavigatorStack.Screen
           name={ONBOARD_ROUTE}
           component={OnboardScreen}
+          options={{
+            header: () => null,
+          }}
+        />
+        <AppNavigatorStack.Screen
+          name={APP_TAB_ROUTE}
+          component={AppTabNavigator}
           options={{
             header: () => null,
           }}
