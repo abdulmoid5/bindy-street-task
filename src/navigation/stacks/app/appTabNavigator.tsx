@@ -37,7 +37,16 @@ export const AppTabNavigator = () => {
         ),
       })}>
       <Tab.Screen name={POST_VIEW_ROUTE} component={PostViewScreen} />
-      <Tab.Screen name={CARD_VIEW_ROUTE} component={CardViewScreen} />
+      <Tab.Screen
+        name={CARD_VIEW_ROUTE}
+        component={CardViewScreen}
+        options={{
+          headerShown: true,
+          header: () => (
+            <HeaderNavBack backgroundColor={theme.colors.white} empty />
+          ),
+        }}
+      />
     </Tab.Navigator>
   );
 };
