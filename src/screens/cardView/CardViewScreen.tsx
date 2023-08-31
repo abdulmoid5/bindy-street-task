@@ -1,12 +1,18 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {FlashList} from '@shopify/flash-list';
 import React from 'react';
-import {ActivityIndicator, Image, ScrollView, View} from 'react-native';
+import {
+  ActivityIndicator,
+  Image,
+  RefreshControl,
+  ScrollView,
+  View,
+} from 'react-native';
 import {Text} from '~/components/atom/Text';
 import {Card} from '~/components/organisms/Card';
-import {useGetApi} from '~/hooks/api';
 import {useTheme} from '~/hooks/useTheme';
 import {AppNavigatorStackParamsList} from '~/navigation/appNavigator/types';
+import {useCardView} from './hooks/useCardView';
 import {CardViewItemProps} from './types';
 
 type CardViewScreenProps = NativeStackScreenProps<
@@ -19,32 +25,41 @@ export const CardViewScreen: React.FC<CardViewScreenProps> = (
 ): JSX.Element => {
   const {} = props;
   const theme = useTheme();
-  const {
-    data: row1,
-    loading: row1Loading,
-    refetch: row1Refetch,
-  } = useGetApi('photos?_start=0&_limit=10');
-  const {
-    data: row2,
-    loading: row2Loading,
-    refetch: row2Refetch,
-  } = useGetApi('photos?_start=11&_limit=20');
-  const {
-    data: row3,
-    loading: row3Loading,
-    refetch: row3Refetch,
-  } = useGetApi('photos?_start=21&_limit=30');
+  const {data, loading, refetch} = useCardView();
+
+  const list = (row: Array<CardViewItemProps>, variant: ItemVariant) => {
+    return (
+      <FlashList
+        horizontal
+        data={row}
+        renderItem={({item}: {item: CardViewItemProps}) => (
+          <Item
+            variant={variant}
+            image={item.thumbnailUrl}
+            title={item.title}
+          />
+        )}
+        estimatedItemSize={160}
+        showsVerticalScrollIndicator={false}
+        bounces={false}
+      />
+    );
+  };
 
   return (
     <ScrollView
       style={{
+        flex: 1,
         backgroundColor: theme.colors.white,
       }}
       contentContainerStyle={{
         paddingBottom: 120,
         width: '100%',
-      }}>
-      {row1Loading || row2Loading || row3Loading ? (
+      }}
+      refreshControl={
+        <RefreshControl refreshing={loading} onRefresh={refetch} />
+      }>
+      {loading ? (
         <View
           style={{
             flex: 1,
@@ -54,57 +69,19 @@ export const CardViewScreen: React.FC<CardViewScreenProps> = (
           <ActivityIndicator size={'large'} color={theme.colors.primary} />
         </View>
       ) : (
-        <>
-          <FlashList
-            horizontal
-            data={row1}
-            renderItem={({item}: {item: CardViewItemProps}) => (
-              <Item
-                variant="small"
-                image={item.thumbnailUrl}
-                title={item.title}
-              />
-            )}
-            estimatedItemSize={160}
-            onRefresh={row1Refetch}
-            refreshing={row1Loading}
-          />
-          <FlashList
-            horizontal
-            data={row2}
-            renderItem={({item}: {item: CardViewItemProps}) => (
-              <Item
-                variant="medium"
-                image={item.thumbnailUrl}
-                title={item.title}
-              />
-            )}
-            estimatedItemSize={160}
-            onRefresh={row2Refetch}
-            refreshing={row2Loading}
-          />
-          <FlashList
-            horizontal
-            data={row3}
-            renderItem={({item}: {item: CardViewItemProps}) => (
-              <Item
-                variant="large"
-                image={item.thumbnailUrl}
-                title={item.title}
-              />
-            )}
-            estimatedItemSize={160}
-            onRefresh={row3Refetch}
-            refreshing={row3Loading}
-          />
-        </>
+        <View>
+          {list(data.row1, 'small')}
+          {list(data.row2, 'medium')}
+          {list(data.row3, 'large')}
+        </View>
       )}
     </ScrollView>
   );
 };
 
+type ItemVariant = 'small' | 'medium' | 'large';
 type ItemProps = {
-  variant: 'small' | 'medium' | 'large';
+  variant: ItemVariant;
   image: string;
   title: string;
 };
